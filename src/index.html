@@ -1,0 +1,109 @@
+---
+layout: main.njk
+---
+
+<style>
+	html {
+		box-sizing: border-box;
+		font-size: 16px;
+		font-family: Arial, Helvetica, sans-serif
+	}
+	*, *:before, *:after {
+		box-sizing: inherit;
+	}
+	body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+		margin: 0;
+		padding: 0;
+		font-weight: normal;
+	}
+	ol, ul {
+		list-style: none;
+	}
+	img {
+		max-width: 100%;
+		height: auto;
+	}
+	body {
+		background: rgb(26, 26, 26);
+		color: white;
+	}
+	a {
+		color: lightgreen;
+	}
+	a:visited {
+		color: green;
+	}
+	div {
+		margin: 1em 1em 1em 1em;
+		padding: 10px 0px 10px 0px;
+		padding-left: 2em;
+		background: white;
+		color: black;
+		border-radius: 0.5em;
+		font-family: 'Courier New', Courier, monospace
+	}
+	details {
+		padding: 0.25em 0 0.25em 0;
+		margin: 1em 0.25em 1em 0.25em;
+		background: #222222;
+		border-radius: 0.25em;
+	}
+	details:nth-child(2n){
+		background: #242424;
+	}
+	details summary { 
+		cursor: pointer;
+		padding-left: 1em;
+	}
+	details[open] {
+		border: 1px solid yellow;
+	}
+	details:hover {
+		outline: 1px solid yellow;
+	}
+	summary > p {
+		display: inline;
+	}
+</style>
+
+<body>
+	<br>
+	<p>Last modified: {{page.date}}</p>
+	<article>
+		{% for card in allcards %}
+		<details>
+			<summary><ran-col>[{{card.category}}]</ran-col> {{card.question}}</summary>
+			<div>{{card.answer}}</div>
+		</details>
+		{% endfor  %}
+	</article>
+
+	<script>
+		class RanCol extends HTMLElement {
+			TSH = (s)=>{for(var i=0,h=9;i<s.length;)h=Math.imul(h^s.charCodeAt(i++),9**9);return h^h>>>9}
+			connectedCallback() {
+				const seed = this.TSH(this.textContent)
+				function mulberry32(a) {
+					return function() {
+					var t = a += 0x6D2B79F5;
+					t = Math.imul(t ^ t >>> 15, t | 1);
+					t ^= t + Math.imul(t ^ t >>> 7, t | 61);
+					return ((t ^ t >>> 14) >>> 0) / 4294967296;
+					}
+				}
+				const rng = mulberry32(seed)
+				const getRandomInt = (max, min = 0) => {
+					min = Math.ceil(min)
+					max = Math.floor(max)
+					return Math.floor(rng() * (max - min + 1)) + min
+				}
+				const ranChar = ()=>"ABCDEF"[getRandomInt(5)]
+				const rn = [0,0,0].map(v=>ranChar())
+				rn[getRandomInt(2)] = "5"
+				const color = rn.join("")
+				this.innerHTML = `<span style="color: #${color};">${this.textContent}</span>`
+			}
+		}
+		customElements.define("ran-col", RanCol)
+	</script>
+</body>

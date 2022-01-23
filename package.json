@@ -1,0 +1,32 @@
+{
+  "name": "rogers-flashcard-site",
+  "version": "0.0.1",
+  "description": "A site for my flash cards",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "eleventy",
+    "deploy": "node ftpdeploy.js",
+    "dev": "eleventy --watch --serve --port=8081"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Roger-Heathcote/rogers-flashcard-site.git"
+  },
+  "author": "Roger Heathcote",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Roger-Heathcote/rogers-flashcard-site/issues"
+  },
+  "homepage": "https://github.com/Roger-Heathcote/rogers-flashcard-site#readme",
+  "devDependencies": {
+    "@11ty/eleventy": "^1.0.0"
+  },
+  "dependencies": {
+    "@samkirkland/ftp-deploy": "^1.1.1",
+    "dotenv": "^14.2.0",
+    "highlight.js": "^11.4.0",
+    "install": "^0.13.0",
+    "npm": "^8.3.2"
+  }
+}
